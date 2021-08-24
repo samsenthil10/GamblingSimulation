@@ -17,10 +17,20 @@ public class GamblingSimulator {
 		}
 		return cash;
 	}
+	
+	public static int calculativeGambler(int netCash) {
+		int min = (STAKES_EVERYDAY) - (50*STAKES_EVERYDAY/100);
+		int max = (STAKES_EVERYDAY) + (50*STAKES_EVERYDAY/100);
+		while (netCash >  min && netCash < max)
+		{
+			netCash = everyGameBetOutcome(netCash);
+		}
+		return netCash;
+	}
 
 	public static void main(String[] args) {
 		int netCash = STAKES_EVERYDAY;
-		netCash = everyGameBetOutcome(netCash);
+		netCash = calculativeGambler(netCash);
 		System.out.println(netCash);
 	}
 }
