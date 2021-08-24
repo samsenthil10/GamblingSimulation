@@ -14,6 +14,7 @@ public class GamblingSimulator {
 
 	public static int countLose=0;
 	public static int countWin=0;
+	public static int flagToQuitGame=0;
 
 	public static ArrayList<Integer> daysWon=new ArrayList<Integer>();
 	public static ArrayList<Integer> daysLost=new ArrayList<Integer>();
@@ -46,10 +47,10 @@ public class GamblingSimulator {
 	}
 
 	public static int everyMonthBetOutcome(int cash) {
-		int netCash=0;
+		int netCash = 0;
 		for(int days=1; days <= TOTAL_DAYS; days++) {
 			cash = STAKES_EVERYDAY;
-			netCash+=calculativeGambler(cash,days);
+			netCash += calculativeGambler(cash,days);
 		}
 		return netCash;
 	}
@@ -73,12 +74,26 @@ public class GamblingSimulator {
 		System.out.println("Unlucky Days: "+daysLost);
 	}
 
+	public static void playMonthsTillLost(int netCash) {
+		int totalCash = 0;
+		int month = 1;
+		while(flagToQuitGame == 0) {
+			System.out.println("---------------------------Month: "+ month+"---------------------------");
+			totalCash += everyMonthBetOutcome(netCash);
+			loseOrWinCounter();
+			luckyOrUnluckyDay();
+			month++;;
+			if(countLose > countWin) {
+				flagToQuitGame=1;
+			}
+			System.out.println("Total Money Earned: $"+totalCash);
+			System.out.println("---------------------------------------------------------------");
+		}
+	}
+	
 	public static void main(String[] args) {
-		int netCash = STAKES_EVERYDAY;
-		netCash = everyMonthBetOutcome(netCash);
-		System.out.println(netCash);
-		loseOrWinCounter();
-		luckyOrUnluckyDay();
+		int netCashForMonths = STAKES_EVERYDAY;
+		playMonthsTillLost(netCashForMonths);
 	}	
 }
 
